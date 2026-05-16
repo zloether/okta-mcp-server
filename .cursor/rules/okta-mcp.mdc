@@ -1,0 +1,14 @@
+---
+description: Project conventions and architecture for okta-mcp-server
+globs: ["**/*.py", "**/*.yaml", "**/*.md"]
+alwaysApply: true
+---
+
+See AGENTS.md in the repository root for the full reference covering architecture, the customization system, tool authoring patterns, testing, and coding conventions.
+
+Key rules:
+- Never modify files in src/okta_mcp_server/ — all changes go in customizations/ and are declared in customizations/manifest.yaml
+- Run the server with: uv run python custom_server.py
+- Decorator order on tools: @mcp.tool() → @require_scopes() → @validate_ids()
+- Every new tool that needs scope enforcement must be added to TOOL_SCOPE_REGISTRY in src/okta_mcp_server/utils/scope_registry.py
+- Run before committing: uv run ruff check . && uv run ruff format .
