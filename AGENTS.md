@@ -199,6 +199,33 @@ client = await get_okta_client(manager)
 
 Add a `remove_tool` entry — no file needed. `custom_server.py` calls `mcp._tool_manager.remove_tool(name)` after all upstream imports.
 
+### Keeping the Manifest Current
+
+**Every change made to this repo — not just tool changes — must have a corresponding entry in `customizations/manifest.yaml`.** This is what makes the divergence from upstream visible at a glance.
+
+| Change you're making | Entry type to add |
+|----------------------|-------------------|
+| New tool in `customizations/tools/` | `add_tool` |
+| Replacement for an upstream tool | `override_tool` |
+| Dropping an upstream tool | `remove_tool` |
+| Changing server config in `custom_server.py` | `config_change` |
+| Anything else (CI, docs, dependencies, config files) | `repo_change` |
+
+For `repo_change` entries, include a `files` list of every file added or modified:
+
+```yaml
+- id: "repo-005"
+  type: repo_change
+  name: "short-label"
+  description: "What was added or changed"
+  reason: "Why"
+  added_date: "YYYY-MM-DD"
+  files:
+    - .github/workflows/my-workflow.yml
+```
+
+ID numbering: increment within each prefix (`add-`, `ov-`, `rm-`, `cfg-`, `repo-`). Check the current highest ID in the manifest before adding a new entry.
+
 ### Syncing Upstream
 
 See `UPSTREAM.md` for the full process. In brief:
