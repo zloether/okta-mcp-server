@@ -166,17 +166,21 @@ client = await get_okta_client(manager)
 | `override_tool` | Removes the upstream registration, loads replacement | `file` |
 | `remove_tool` | Drops an upstream tool from the FastMCP registry | — |
 | `config_change` | Server-level config change (apply in `custom_server.py`) | `value` |
+| `repo_change` | Any other repo-level addition or modification (CI, docs, config) | `files` |
 
 ### All entry fields
 
 ```yaml
-- id: "add-001"              # unique ID — increment per type prefix (add, ov, rm, cfg)
-  type: add_tool             # add_tool | override_tool | remove_tool | config_change
-  name: "my_tool"            # exact Python function name
+- id: "add-001"              # unique ID — increment per type prefix (add, ov, rm, cfg, repo)
+  type: add_tool             # add_tool | override_tool | remove_tool | config_change | repo_change
+  name: "my_tool"            # tool function name, config key, or short label (for repo_change)
   file: "customizations/tools/my_tool.py"   # required for add_tool and override_tool
-  description: "What this tool does"        # human-readable summary
-  reason: "Why this change was made"        # motivation
+  description: "What this customization does"
+  reason: "Why this change was made"
   added_date: "2026-05-16"   # ISO date
+  # repo_change only:
+  # files:
+  #   - path/to/file.yml
 ```
 
 ### Adding a New Tool
