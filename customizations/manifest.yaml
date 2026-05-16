@@ -85,3 +85,12 @@ customizations:
     files:
       - .github/workflows/test.yml
       - .github/dependabot.yml
+
+  - id: "repo-005"
+    type: repo_change
+    name: "customizations-license"
+    description: "Apache 2.0 + Commons Clause license for the customizations/ directory"
+    reason: "Allow free use including commercial, but prohibit selling or bundling into paid products"
+    added_date: "2026-05-16"
+    files:
+      - customizations/LICENSE

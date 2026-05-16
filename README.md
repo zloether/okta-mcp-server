@@ -881,3 +881,14 @@ Copyright © 2025-Present, Okta, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0. Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 
+
+## Licensing
+
+This repository contains two distinct components with different licenses:
+
+| Component | Path | License |
+|-----------|------|---------|
+| Upstream Okta MCP Server | `src/okta_mcp_server/` | [Apache 2.0](LICENSE) |
+| Customizations | `customizations/` | [Apache 2.0 + Commons Clause](customizations/LICENSE) |
+
+The customizations may be freely used, modified, and distributed — including in commercial settings — but may not be sold or included as a component of a product or service offered for a fee. See [`customizations/LICENSE`](customizations/LICENSE) for the full terms.
