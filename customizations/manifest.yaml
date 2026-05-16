@@ -1,0 +1,34 @@
+# Customization Manifest
+# ======================
+# Single source of truth for all changes made on top of the upstream okta-mcp-server.
+# Read by custom_server.py at startup to apply customizations dynamically.
+# Upstream source is tracked in UPSTREAM.md.
+#
+# Entry types:
+#   add_tool      — new tool not present upstream; module lives in customizations/tools/
+#   override_tool — replaces an upstream tool; module lives in customizations/overrides/
+#   remove_tool   — excludes an upstream tool from loading; no file needed
+#   config_change — change to server-level configuration (handled in custom_server.py)
+#
+# Required fields per entry:
+#   id          — unique identifier (e.g. "add-001", "ov-001", "rm-001", "cfg-001")
+#   type        — one of the types above
+#   name        — tool function name (for add/override/remove) or config key (for config_change)
+#   description — what this customization does (human-readable)
+#   reason      — why this change was made
+#   added_date  — ISO date when this entry was added
+#
+# Additional fields by type:
+#   add_tool:      file — path to module relative to repo root (e.g. "customizations/tools/my_tool.py")
+#   override_tool: file — path to module relative to repo root
+#   config_change: value — the new value for the config key
+
+version: "1.0"
+
+upstream:
+  repo: "https://github.com/okta/okta-mcp-server"
+  last_synced_tag: "v1.1.0"
+  last_synced_commit: "05121c9"
+  synced_date: "2026-05-16"
+
+customizations: []
