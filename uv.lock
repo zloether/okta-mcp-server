@@ -619,7 +619,7 @@ wheels = [
 
 [[package]]
 name = "okta-mcp-server"
-version = "0.1.0"
+version = "1.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "flatdict" },
@@ -628,6 +628,7 @@ dependencies = [
     { name = "loguru" },
     { name = "mcp", extra = ["cli"] },
     { name = "okta" },
+    { name = "pyyaml" },
     { name = "requests" },
     { name = "ruff" },
 ]
@@ -646,6 +647,7 @@ requires-dist = [
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.26.0,<2.0.0" },
     { name = "okta", specifier = "==3.4.1" },
+    { name = "pyyaml", specifier = ">=6.0" },
     { name = "requests", specifier = ">=2.32.4" },
     { name = "ruff", specifier = ">=0.11.13" },
 ]

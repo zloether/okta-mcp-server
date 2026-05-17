@@ -94,3 +94,12 @@ customizations:
     added_date: "2026-05-16"
     files:
       - customizations/LICENSE
+
+  - id: "repo-006"
+    type: repo_change
+    name: "customizations-readme"
+    description: "README for running the customized server and connecting MCP clients"
+    reason: "Document the custom_server.py entry point, env vars, and client configs so users don't have to read the code"
+    added_date: "2026-05-16"
+    files:
+      - customizations/README.md
