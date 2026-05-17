@@ -87,7 +87,7 @@ def main():
     )
 
     # --- Load all upstream tools (same order as server.py:main) ---
-    from okta_mcp_server.tools.applications import applications  # noqa: F401
+    from okta_mcp_server.tools.applications import applications  # noqa: F401, I001
     from okta_mcp_server.tools.customization.brands import brands  # noqa: F401
     from okta_mcp_server.tools.customization.custom_domains import custom_domains  # noqa: F401
     from okta_mcp_server.tools.customization.custom_pages import custom_pages  # noqa: F401
@@ -104,6 +104,13 @@ def main():
 
     # mcp is imported after tool modules so all upstream registrations are complete.
     from okta_mcp_server.server import mcp
+
+    # --- Replace upstream lifespan with lazy authentication ---
+    from mcp.server.fastmcp.server import lifespan_wrapper
+    from customizations.lazy_auth import lazy_okta_lifespan
+
+    mcp._mcp_server.lifespan = lifespan_wrapper(mcp, lazy_okta_lifespan)
+    logger.info("[custom] Replaced upstream lifespan with lazy authentication")
 
     # --- Overrides: remove upstream registration, load replacement ---
     for entry in override_entries:

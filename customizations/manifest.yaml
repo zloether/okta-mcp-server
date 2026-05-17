@@ -112,3 +112,14 @@ customizations:
     added_date: "2026-05-16"
     files:
       - .gitignore
+
+  - id: "cfg-001"
+    type: config_change
+    name: "lazy-auth-lifespan"
+    description: "Defer device authorization flow until first tool invocation; reuse valid keyring token if available"
+    reason: "Avoid blocking MCP server startup with an interactive browser prompt when a valid token already exists"
+    added_date: "2026-05-16"
+    value: "customizations/lazy_auth.py:lazy_okta_lifespan"
+    files:
+      - customizations/lazy_auth.py
+      - custom_server.py
