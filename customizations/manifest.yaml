@@ -123,3 +123,13 @@ customizations:
     files:
       - customizations/lazy_auth.py
       - custom_server.py
+
+  - id: "repo-008"
+    type: repo_change
+    name: "customizations-tests"
+    description: "Test suite for customization code under tests/customizations/"
+    reason: "Ensure customization logic is covered independently from upstream tests"
+    added_date: "2026-05-16"
+    files:
+      - tests/customizations/__init__.py
+      - tests/customizations/test_lazy_auth.py
