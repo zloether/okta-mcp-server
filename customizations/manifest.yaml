@@ -103,3 +103,12 @@ customizations:
     added_date: "2026-05-16"
     files:
       - customizations/README.md
+
+  - id: "repo-007"
+    type: repo_change
+    name: "gitignore-mcp-json"
+    description: "Added .mcp.json to .gitignore"
+    reason: "MCP client config is machine-local and should not be committed to the repo"
+    added_date: "2026-05-16"
+    files:
+      - .gitignore
