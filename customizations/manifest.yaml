@@ -9,6 +9,7 @@
 #   override_tool — replaces an upstream tool; module lives in customizations/overrides/
 #   remove_tool   — excludes an upstream tool from loading; no file needed
 #   config_change — change to server-level configuration (handled in custom_server.py)
+#   config_change — change to server-level configuration (handled in custom_server.py)
 #   repo_change   — any other repo-level addition or modification (CI, docs, config, etc.)
 #
 # Required fields per entry:
@@ -116,7 +117,7 @@ customizations:
   - id: "cfg-001"
     type: config_change
     name: "lazy-auth-lifespan"
-    description: "Defer device authorization flow until first tool invocation; reuse valid keyring token if available"
+    description: "Defer device authorization flow until first tool invocation; reuse valid keyring token if available. Tokens persist in keyring across restarts and expire naturally via JWT exp."
     reason: "Avoid blocking MCP server startup with an interactive browser prompt when a valid token already exists"
     added_date: "2026-05-16"
     value: "customizations/lazy_auth.py:lazy_okta_lifespan"
