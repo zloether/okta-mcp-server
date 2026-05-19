@@ -1,0 +1,136 @@
+# Customization Manifest
+# ======================
+# Single source of truth for all changes made on top of the upstream okta-mcp-server.
+# Read by custom_server.py at startup to apply tool customizations dynamically.
+# Upstream source is tracked in UPSTREAM.md.
+#
+# Entry types:
+#   add_tool      — new tool not present upstream; module lives in customizations/tools/
+#   override_tool — replaces an upstream tool; module lives in customizations/overrides/
+#   remove_tool   — excludes an upstream tool from loading; no file needed
+#   config_change — change to server-level configuration (handled in custom_server.py)
+#   config_change — change to server-level configuration (handled in custom_server.py)
+#   repo_change   — any other repo-level addition or modification (CI, docs, config, etc.)
+#
+# Required fields per entry:
+#   id          — unique identifier (e.g. "add-001", "ov-001", "rm-001", "cfg-001", "repo-001")
+#   type        — one of the types above
+#   name        — tool function name (for add/override/remove), config key (for config_change),
+#                 or short label (for repo_change)
+#   description — what this customization does (human-readable)
+#   reason      — why this change was made
+#   added_date  — ISO date when this entry was added
+#
+# Additional fields by type:
+#   add_tool:      file  — path to module relative to repo root
+#   override_tool: file  — path to module relative to repo root
+#   config_change: value — the new value for the config key
+#   repo_change:   files — list of files or directories added/modified
+
+version: "1.0"
+
+upstream:
+  repo: "https://github.com/okta/okta-mcp-server"
+  last_synced_tag: "v1.1.0"
+  last_synced_commit: "05121c9"
+  synced_date: "2026-05-16"
+
+customizations:
+
+  # ---------------------------------------------------------------------------
+  # Repo-level changes
+  # ---------------------------------------------------------------------------
+
+  - id: "repo-001"
+    type: repo_change
+    name: "customization-scaffolding"
+    description: "Manifest-driven customization system with wrapper entry point"
+    reason: "Isolate all local changes from upstream source so future upstream syncs are conflict-free"
+    added_date: "2026-05-16"
+    files:
+      - custom_server.py
+      - customizations/manifest.yaml
+      - customizations/tools/
+      - customizations/overrides/
+      - UPSTREAM.md
+
+  - id: "repo-002"
+    type: repo_change
+    name: "pyyaml-dependency"
+    description: "Added pyyaml>=6.0 to pyproject.toml dependencies"
+    reason: "Required by custom_server.py to parse customizations/manifest.yaml"
+    added_date: "2026-05-16"
+    files:
+      - pyproject.toml
+
+  - id: "repo-003"
+    type: repo_change
+    name: "ai-assistant-docs"
+    description: "AGENTS.md and per-assistant config files for Claude, Cursor, Copilot, Gemini, Windsurf"
+    reason: "Give AI coding assistants a consistent reference for architecture, conventions, and the customization system"
+    added_date: "2026-05-16"
+    files:
+      - AGENTS.md
+      - CLAUDE.md
+      - GEMINI.md
+      - .cursor/rules/okta-mcp.mdc
+      - .github/copilot-instructions.md
+      - .windsurfrules
+
+  - id: "repo-004"
+    type: repo_change
+    name: "github-actions-ci"
+    description: "GitHub Actions test workflow and Dependabot config, replacing CircleCI"
+    reason: "Free GitHub account — no CircleCI access; Dependabot covers dependency vulnerability scanning"
+    added_date: "2026-05-16"
+    files:
+      - .github/workflows/test.yml
+      - .github/dependabot.yml
+
+  - id: "repo-005"
+    type: repo_change
+    name: "customizations-license"
+    description: "Apache 2.0 + Commons Clause license for the customizations/ directory"
+    reason: "Allow free use including commercial, but prohibit selling or bundling into paid products"
+    added_date: "2026-05-16"
+    files:
+      - customizations/LICENSE
+
+  - id: "repo-006"
+    type: repo_change
+    name: "customizations-readme"
+    description: "README for running the customized server and connecting MCP clients"
+    reason: "Document the custom_server.py entry point, env vars, and client configs so users don't have to read the code"
+    added_date: "2026-05-16"
+    files:
+      - customizations/README.md
+
+  - id: "repo-007"
+    type: repo_change
+    name: "gitignore-mcp-json"
+    description: "Added .mcp.json to .gitignore"
+    reason: "MCP client config is machine-local and should not be committed to the repo"
+    added_date: "2026-05-16"
+    files:
+      - .gitignore
+
+  - id: "cfg-001"
+    type: config_change
+    name: "lazy-auth-lifespan"
+    description: "Defer device authorization flow until first tool invocation; reuse valid keyring token if available. Tokens persist in keyring across restarts and expire naturally via JWT exp."
+    reason: "Avoid blocking MCP server startup with an interactive browser prompt when a valid token already exists"
+    added_date: "2026-05-16"
+    value: "customizations/lazy_auth.py:lazy_okta_lifespan"
+    files:
+      - customizations/lazy_auth.py
+      - custom_server.py
+
+  - id: "repo-008"
+    type: repo_change
+    name: "customizations-tests"
+    description: "Test suite for customization code under tests/customizations/"
+    reason: "Ensure customization logic is covered independently from upstream tests"
+    added_date: "2026-05-16"
+    files:
+      - tests/customizations/__init__.py
+      - tests/customizations/test_lazy_auth.py
