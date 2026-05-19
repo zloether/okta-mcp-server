@@ -65,8 +65,4 @@ async def lazy_okta_lifespan(server: FastMCP) -> AsyncIterator[OktaAppContext]: 
     # var at init time) — no token needed.
     prune_tools_by_scope(server, manager)
 
-    try:
-        yield OktaAppContext(okta_auth_manager=manager)
-    finally:
-        logger.debug("[lazy-auth] Clearing Okta tokens")
-        manager.clear_tokens()
+    yield OktaAppContext(okta_auth_manager=manager)

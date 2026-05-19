@@ -122,7 +122,8 @@ class TestLazyOktaLifespan:
         mock_prune.assert_called_once_with(fake_server, fake_manager)
 
     @pytest.mark.asyncio
-    async def test_clears_tokens_on_exit(self):
+    async def test_does_not_clear_tokens_on_exit(self):
+        """Tokens are left in keyring on exit so they can be reused on next startup."""
         fake_manager = FakeManager()
         cleared = []
         fake_manager.clear_tokens = lambda: cleared.append(True)
@@ -136,10 +137,11 @@ class TestLazyOktaLifespan:
             async with lazy_okta_lifespan(fake_server):
                 pass
 
-        assert cleared == [True]
+        assert cleared == []
 
     @pytest.mark.asyncio
-    async def test_clears_tokens_even_on_exception(self):
+    async def test_does_not_clear_tokens_on_exception(self):
+        """Tokens are left in keyring even when an exception propagates."""
         fake_manager = FakeManager()
         cleared = []
         fake_manager.clear_tokens = lambda: cleared.append(True)
@@ -154,4 +156,4 @@ class TestLazyOktaLifespan:
                 async with lazy_okta_lifespan(fake_server):
                     raise RuntimeError("tool blew up")
 
-        assert cleared == [True]
+        assert cleared == []
